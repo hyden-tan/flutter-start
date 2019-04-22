@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluter_start/page/row.dart';
+import 'package:fluter_start/page/column.dart';
 
 void main() => runApp(new MyApp());
 
@@ -17,13 +18,15 @@ class MyApp extends StatelessWidget {
 }
 
 class Contents extends StatelessWidget {
-  final List<String> data = const ['rowPage', 'colPage'];
+  final List<String> data = const ['rowPage', 'columnPage'];
 
   skipPage(BuildContext context, String page) {
     Navigator.push(context, new MaterialPageRoute(builder: (context) {
       switch (page) {
         case 'rowPage':
           return new RowPage();
+        case 'columnPage':
+          return new ColumnPage();
         default:
           return new RowPage();
       }

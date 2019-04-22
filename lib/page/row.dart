@@ -9,6 +9,8 @@ class RowPage extends StatelessWidget{
         title: Text('Row Demo'),
       ),
       body: new Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        verticalDirection: VerticalDirection.up,
         children: <Widget>[
           Text('明月几时有'),
           Text('把酒问青天')
