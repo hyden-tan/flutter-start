@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluter_start/page/row.dart';
 import 'package:fluter_start/page/column.dart';
+import 'package:fluter_start/page/wrap.dart';
+import 'package:fluter_start/page/stack.dart';
 
 void main() => runApp(new MyApp());
 
@@ -18,15 +20,19 @@ class MyApp extends StatelessWidget {
 }
 
 class Contents extends StatelessWidget {
-  final List<String> data = const ['rowPage', 'columnPage'];
+  final List<String> data = const ['row', 'column', 'wrap', 'stack'];
 
   skipPage(BuildContext context, String page) {
     Navigator.push(context, new MaterialPageRoute(builder: (context) {
       switch (page) {
-        case 'rowPage':
+        case 'row':
           return new RowPage();
-        case 'columnPage':
+        case 'column':
           return new ColumnPage();
+        case 'wrap':
+          return new WrapPage();
+        case 'stack':
+          return new StackPage();
         default:
           return new RowPage();
       }
@@ -39,7 +45,7 @@ class Contents extends StatelessWidget {
       body: ListView.builder(
           itemCount: data.length * 2,
           itemBuilder: (BuildContext context, int index) {
-            if (index.isOdd || index > data.length) {
+            if (index.isOdd) {
               return Divider();
             }
             final i = (index / 2).floor();
