@@ -1,8 +1,8 @@
+import 'package:fluter_start/page/acceleration.dart';
+import 'package:fluter_start/page/friction_move.dart';
+import 'package:fluter_start/page/simple_move.dart';
 import 'package:flutter/material.dart';
 import 'package:fluter_start/page/row.dart';
-import 'package:fluter_start/page/column.dart';
-import 'package:fluter_start/page/wrap.dart';
-import 'package:fluter_start/page/stack.dart';
 
 void main() => runApp(new MyApp());
 
@@ -20,19 +20,23 @@ class MyApp extends StatelessWidget {
 }
 
 class Contents extends StatelessWidget {
-  final List<String> data = const ['row', 'column', 'wrap', 'stack'];
+  final List<String> data = const ['simpleMove', 'frictionMove', 'accelerationMove'];
 
   skipPage(BuildContext context, String page) {
     Navigator.push(context, new MaterialPageRoute(builder: (context) {
       switch (page) {
-        case 'row':
-          return new RowPage();
-        case 'column':
-          return new ColumnPage();
-        case 'wrap':
-          return new WrapPage();
-        case 'stack':
-          return new StackPage();
+        case 'simpleMove':
+          return SimpleMovePage();
+        case 'frictionMove':
+          return FrictionMovePage();
+        case 'accelerationMove':
+          return AccelerationPage();
+        // case 'column':
+        //   return new ColumnPage();
+        // case 'wrap':
+        //   return new WrapPage();
+        // case 'stack':
+        //   return new StackPage();
         default:
           return new RowPage();
       }
