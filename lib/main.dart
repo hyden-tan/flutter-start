@@ -1,8 +1,9 @@
-import 'package:fluter_start/page/acceleration.dart';
-import 'package:fluter_start/page/friction_move.dart';
-import 'package:fluter_start/page/simple_move.dart';
+import 'package:fluter_start/page/animation/acceleration.dart';
+import 'package:fluter_start/page/animation/friction_move.dart';
+import 'package:fluter_start/page/animation/simple_move.dart';
+import 'package:fluter_start/page/animation/simple_move_curve.dart';
+import 'package:fluter_start/page/animation/springPhysics.dart';
 import 'package:flutter/material.dart';
-import 'package:fluter_start/page/row.dart';
 
 void main() => runApp(new MyApp());
 
@@ -20,7 +21,13 @@ class MyApp extends StatelessWidget {
 }
 
 class Contents extends StatelessWidget {
-  final List<String> data = const ['simpleMove', 'frictionMove', 'accelerationMove'];
+  final List<String> data = const [
+    'simpleMove',
+    'curveSimpleMove',
+    'frictionMove',
+    'accelerationMove',
+    'physicsCardDrag',
+  ];
 
   skipPage(BuildContext context, String page) {
     Navigator.push(context, new MaterialPageRoute(builder: (context) {
@@ -31,14 +38,12 @@ class Contents extends StatelessWidget {
           return FrictionMovePage();
         case 'accelerationMove':
           return AccelerationPage();
-        // case 'column':
-        //   return new ColumnPage();
-        // case 'wrap':
-        //   return new WrapPage();
-        // case 'stack':
-        //   return new StackPage();
+        case 'curveSimpleMove':
+          return CurveSimpleMovePage();
+        case 'physicsCardDrag':
+          return PhysicsCardDragPage();
         default:
-          return new RowPage();
+          return Container();
       }
     }));
   }

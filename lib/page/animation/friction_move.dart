@@ -3,25 +3,38 @@ import 'dart:async';
 import 'package:fluter_start/utils/index.dart';
 import 'package:flutter/material.dart';
 
-class AccelerationPage extends StatefulWidget {
+class FrictionMovePage extends StatefulWidget {
   @override
-  _AccelerationPageState createState() => _AccelerationPageState();
+  _FrictionMovePageState createState() => _FrictionMovePageState();
 }
 
+const INITIAL_V = 32.0;
+const FRICTION = 2;
+const FRICTION_FACTOR = 0.08;
 
-/// 目标值
-const TARGET_RIGHT = 250.0; 
-/// 弹性系数
-const SPRING = 0.01;
-/// 摩擦系数
-const FRICTION_FACTOR = 0.005;
+const RIGHT_END = 320.0; 
 
-class _AccelerationPageState extends State<AccelerationPage> {
+class _FrictionMovePageState extends State<FrictionMovePage> {
 
   double _right = 0.0;
-  double _v = 0.0;
+  double _v;
+  double _friction;
+  double dir = -1;
 
   Function _cancelFrame;
+
+
+
+  initState() {
+    super.initState();
+
+    // Timer.periodic(Duration(milliseconds: 1000), (_) {
+    //   print('我在执行Timer');
+    // });
+    // requestAnimationFrame((_) {
+    //   print('我在执行requestAnimationFrame');
+    // });
+  }
 
   _playFactor() {
     // Timer.periodic(Duration(milliseconds: 16), (timer) {
@@ -34,16 +47,28 @@ class _AccelerationPageState extends State<AccelerationPage> {
     //   setState(() {});
     // });
 
-
     _cancelFrame = requestAnimationFrame((_) {
-      final dx = (TARGET_RIGHT / 2) - _right;
-      final ax = dx * SPRING;
-      _v += ax;
-      // _v *= (1 - FRICTION_FACTOR);
+      final s = RIGHT_END - _right;
+      _v = s * FRICTION_FACTOR;
       _right += _v;
-      // if (_v.abs() <= 0.01) {
-      //   _cancelFrame();
-      // }
+      if (_v <= 0.01) {
+        _cancelFrame();
+      }
+      setState(() {});
+    });
+  }
+
+  _playNomal() {
+    dir = -dir;
+    _v = dir * INITIAL_V;
+    _friction = dir * FRICTION;
+
+    Timer.periodic(Duration(milliseconds: 16), (timer) {
+        _right += _v;
+        _v -= _friction;
+        if (_v.abs() <= 0.1) {
+          timer.cancel();
+        }
       setState(() {});
     });
   }
@@ -60,8 +85,8 @@ class _AccelerationPageState extends State<AccelerationPage> {
               top: 0,
               left: _right,
               child: Container(
-                width: 100,
-                height: 100,
+                width: 36,
+                height: 36,
                 color: Colors.red,
               ),
             ),

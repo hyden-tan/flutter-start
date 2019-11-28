@@ -3,38 +3,25 @@ import 'dart:async';
 import 'package:fluter_start/utils/index.dart';
 import 'package:flutter/material.dart';
 
-class FrictionMovePage extends StatefulWidget {
+class AccelerationPage extends StatefulWidget {
   @override
-  _FrictionMovePageState createState() => _FrictionMovePageState();
+  _AccelerationPageState createState() => _AccelerationPageState();
 }
 
-const INITIAL_V = 32.0;
-const FRICTION = 2;
-const FRICTION_FACTOR = 0.08;
 
-const RIGHT_END = 250.0; 
+/// 目标值
+const TARGET_RIGHT = 320.0; 
+/// 弹性系数
+const SPRING = 0.01;
+/// 摩擦系数
+const FRICTION_FACTOR = 0.005;
 
-class _FrictionMovePageState extends State<FrictionMovePage> {
+class _AccelerationPageState extends State<AccelerationPage> {
 
   double _right = 0.0;
-  double _v;
-  double _friction;
-  double dir = -1;
+  double _v = 0.0;
 
   Function _cancelFrame;
-
-
-
-  initState() {
-    super.initState();
-
-    // Timer.periodic(Duration(milliseconds: 1000), (_) {
-    //   print('我在执行Timer');
-    // });
-    // requestAnimationFrame((_) {
-    //   print('我在执行requestAnimationFrame');
-    // });
-  }
 
   _playFactor() {
     // Timer.periodic(Duration(milliseconds: 16), (timer) {
@@ -48,27 +35,14 @@ class _FrictionMovePageState extends State<FrictionMovePage> {
     // });
 
     _cancelFrame = requestAnimationFrame((_) {
-      final s = RIGHT_END - _right;
-      _v = s * FRICTION_FACTOR;
+      final dx = (TARGET_RIGHT / 2) - _right;
+      final ax = dx * SPRING;
+      _v += ax;
+      // _v *= (1 - FRICTION_FACTOR);
       _right += _v;
-      if (_v <= 0.01) {
-        _cancelFrame();
-      }
-      setState(() {});
-    });
-  }
-
-  _playNomal() {
-    dir = -dir;
-    _v = dir * INITIAL_V;
-    _friction = dir * FRICTION;
-
-    Timer.periodic(Duration(milliseconds: 16), (timer) {
-        _right += _v;
-        _v -= _friction;
-        if (_v.abs() <= 0.1) {
-          timer.cancel();
-        }
+      // if (_v.abs() <= 0.01) {
+      //   _cancelFrame();
+      // }
       setState(() {});
     });
   }
@@ -76,7 +50,7 @@ class _FrictionMovePageState extends State<FrictionMovePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('摩擦力'),),
+      appBar: AppBar(title: Text('弹动'),),
       body: Container(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
         child: Stack(
@@ -85,8 +59,8 @@ class _FrictionMovePageState extends State<FrictionMovePage> {
               top: 0,
               left: _right,
               child: Container(
-                width: 100,
-                height: 100,
+                width: 36,
+                height: 36,
                 color: Colors.red,
               ),
             ),
@@ -113,6 +87,7 @@ class _FrictionMovePageState extends State<FrictionMovePage> {
 
   @override
   void dispose() {
+    _cancelFrame();
     super.dispose();
   }
 }

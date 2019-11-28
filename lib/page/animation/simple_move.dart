@@ -12,18 +12,15 @@ class _SimpleMovePageState extends State<SimpleMovePage> with SingleTickerProvid
   initState() {
     super.initState();
     _controller = new AnimationController(
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 300),
       vsync: this
     );
 
-    //图片宽高从0变到300
-    _animation = new Tween(begin: 0.0, end: 240.0)
-      .animate(_controller);
-      // ..addListener(() {
-      //   setState(()=>{});
-      // });
-    //启动动画(正向执行)
-    _controller.forward();
+    _animation = new Tween(begin: 0.0, end: 320.0)
+      .animate(_controller)
+      ..addListener(() {
+        setState(()=>{});
+      });
   }
 
   @override
@@ -34,30 +31,45 @@ class _SimpleMovePageState extends State<SimpleMovePage> with SingleTickerProvid
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
         child: Stack(
           children: <Widget>[
-            // Positioned(
-            //   top: 0,
-            //   left: _animation.value,
-            //   child: Container(
-            //     width: 100,
-            //     height: 100,
-            //     color: Colors.red,
-            //   ),
-            // ),
-            // MovedContainer(animation: _animation),
-            AnimatedBuilder(
-              animation: _animation,
+            Positioned(
+              top: 0,
+              left: _animation.value,
               child: Container(
-                width: 100,
-                height: 100,
+                width: 36,
+                height: 36,
                 color: Colors.red,
               ),
-              builder: (_, child) {
-                return Positioned(
-                  top: 0,
-                  left: _animation.value,
-                  child: child,
-                );
-              },
+            ),
+            // MovedContainer(animation: _animation),
+            // AnimatedBuilder(
+            //   animation: _animation,
+            //   child: Container(
+            //     width: 36,
+            //     height: 36,
+            //     color: Colors.red,
+            //   ),
+            //   builder: (_, child) {
+            //     return Positioned(
+            //       top: 0,
+            //       left: _animation.value,
+            //       child: child,
+            //     );
+            //   },
+            // ),
+            Positioned(
+              top: 120,
+              right: 20,
+              child: GestureDetector(
+                onTap: () => _controller.forward(),
+                child: Container(
+                  width: 50,
+                  height: 36,
+                  color: Colors.blue,
+                  child: Center(child: Text('播放', style: TextStyle(
+                    color: Colors.white
+                  ),)),
+                ),
+              ),
             )
           ],
         ),
