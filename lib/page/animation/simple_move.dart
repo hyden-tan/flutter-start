@@ -1,3 +1,4 @@
+import 'package:fluter_start/utils/period_manager.dart';
 import 'package:flutter/material.dart';
 
 class SimpleMovePage extends StatefulWidget {
@@ -21,6 +22,22 @@ class _SimpleMovePageState extends State<SimpleMovePage> with SingleTickerProvid
       ..addListener(() {
         setState(()=>{});
       });
+
+      PeriodManager.instance.regist(Period(
+        desc: '测试用',
+        duration: 1000,
+        callback: () => print('1000'),
+      ));
+      PeriodManager.instance.regist(Period(
+        desc: '测试用',
+        duration: 3000,
+        callback: () => print('3000'),
+      ));
+      PeriodManager.instance.regist(Period(
+        desc: '测试用',
+        duration: 10 * 1000,
+        callback: () => print('10 * 1000'),
+      ));
   }
 
   @override
